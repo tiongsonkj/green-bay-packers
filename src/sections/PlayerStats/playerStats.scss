@@ -1,0 +1,17 @@
+.player-stats {
+    .career-table {
+        margin: auto;
+    }
+
+    &__yearly-stats {
+        .head {
+            display: flex;
+            justify-content: center;
+        }
+
+        // most likely will change
+        table {
+            margin: auto;
+        }
+    }
+}

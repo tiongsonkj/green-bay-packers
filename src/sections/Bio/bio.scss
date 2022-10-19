@@ -1,0 +1,14 @@
+.bio {
+    display: flex;
+    justify-content: center;
+
+    &__left-col {
+        img {
+            height: 150px;
+        }
+    }
+
+    &__right-col {
+
+    }
+}
