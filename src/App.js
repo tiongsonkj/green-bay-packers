@@ -4,11 +4,13 @@ import './App.css';
 // that way i dont have to say their file name twice
 import Bio from './sections/Bio/Bio';
 import PlayerStats from './sections/PlayerStats/PlayerStats';
+import Jumbotron from './components/Jumbotron';
 
 function App() {
 
 	return (
 		<div className="App">
+			<Jumbotron />
 			<Bio />
 			<PlayerStats />
 		</div>
