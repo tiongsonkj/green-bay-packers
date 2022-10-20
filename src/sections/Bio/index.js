@@ -1,6 +1,6 @@
 import React from 'react';
 import playersData from '../../data/players.json';
-import picture from '../../assets/profile.png';
+import picture from '../../assets/arod.png';
 
 import './bio.scss';
 
