@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import YearSum from '../../components/YearSum';
 import Career from '../../components/Career';
-import { calculateCareerStats, getYearGameLogData } from '../../utils';
+import { CareerAndYears, getYearGameLogData } from '../../utils';
 
 import './playerStats.scss';
 
 const PlayerStats = () => {
-    const { twentyOne, career, years } = calculateCareerStats();
+    const { career, years } = CareerAndYears();
     const [ year, setYear ] = useState(null);
     const [ yearData, setYearData ] = useState([]);
 
@@ -16,16 +16,12 @@ const PlayerStats = () => {
     const [ reg, setReg ] = useState(true);
 
     useEffect(() => {
-        console.log(calculateCareerStats());
-
         // initialize first year
         const sortedYears = years.sort((a, b) => b - a);
         setYear(sortedYears[0]);
     }, []);
 
     useEffect(() => {
-        console.log({ year })
-
         setYearData(getYearGameLogData(year, {Pre: pre, Post: post, Reg: reg}));
     }, [year, pre, post, reg])
 
@@ -34,7 +30,6 @@ const PlayerStats = () => {
     }
 
     const handleCheckboxChange = (e) => {
-        console.log(e.target);
         const box = e.target.name;
 
         switch (box) {
@@ -85,7 +80,6 @@ const PlayerStats = () => {
                     </div>
                     
                     <div>
-                        {/* TODO: sort game logs by date by most recent. */}
                         <select id="year-select" onChange={handleSelectChange} value={year}>
                             {years.map(year => (
                                 <option>{year}</option>

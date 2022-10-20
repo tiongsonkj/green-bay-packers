@@ -4,9 +4,7 @@ import './components.scss';
 
 const Jumbotron = () => {
     return (
-        <>
-            <div className="jumbotron"><img src={logo} alt="logo"/></div>
-        </>
+        <div className="jumbotron"><img src={logo} alt="logo"/></div>
     )
 };
 
