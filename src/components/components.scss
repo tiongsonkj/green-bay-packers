@@ -12,3 +12,30 @@
         height: 65%;
     }
 }
+
+
+.career {
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 401px;
+    margin: 30px auto;
+    border-top: none;
+
+    div {
+        background-color: #20372F;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        color: #FFB612;
+        font-weight: bold;
+        padding: 10px 0;
+    }
+
+    .career-table {
+        margin: auto;
+        padding: 10px 0;
+
+        th, td {
+            padding: 5px;
+        }
+    }
+}

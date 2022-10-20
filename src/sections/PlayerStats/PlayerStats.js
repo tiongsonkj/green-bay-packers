@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import YearSum from '../../components/YearSum';
+import Career from '../../components/Career';
 import { calculateCareerStats, getYearGameLogData } from '../../utils';
 
 import './playerStats.scss';
@@ -41,28 +42,7 @@ const PlayerStats = () => {
     const { comp, att, yards, td, int, sacks, hits } = career;
     return (
         <section className="player-stats">
-            {/* career */}
-            {/* TODO: move into its own component */}
-            <table className="career-table">
-                <thead>
-                    <th>COMP</th>
-                    <th>ATT</th>
-                    <th>YARDS</th>
-                    <th>TD</th>
-                    <th>INT</th>
-                    <th>SACKS</th>
-                    <th>HITS</th>
-                </thead>
-                <tr>
-                    <td>{comp}</td>
-                    <td>{att}</td>
-                    <td>{yards}</td>
-                    <td>{td}</td>
-                    <td>{int}</td>
-                    <td>{sacks}</td>
-                    <td>{hits}</td>
-                </tr>
-            </table>
+            <Career careerStats={career}/>
 
 
             {/* year  */}
