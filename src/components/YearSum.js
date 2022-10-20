@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './components.scss';
+
 const YearSum = (props) => {
     
     const data = {
@@ -22,9 +24,10 @@ const YearSum = (props) => {
     }
     
     return (
-        <tr>
+        <tr id="totals">
             {/* <td>hi</td> */}
             <td>Totals:</td>
+            <td></td>
             <td>{data.comp}</td>
             <td>{data.att}</td>
             <td>{data.yards}</td>

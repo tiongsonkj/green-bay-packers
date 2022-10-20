@@ -1,14 +1,45 @@
 .player-stats {
+    margin-bottom: 100px;
 
-    &__yearly-stats {
+    .yearly-stats {
+        width: 50%;
+        margin: auto;
+        
         .head {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
+            padding: 10px;
+
+            // can add this as a mixin
+            background-color: #20372F;
+            color: #FFB612;
+            font-weight: bold;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        
+            .select-container {
+                label {
+                    margin-right: 10px;
+                }
+            }
         }
 
-        // most likely will change
-        table {
+        .game-logs {
             margin: auto;
+            border-collapse: collapse;
+            width: 100%;
+
+            thead {
+                border-bottom: 1px solid black;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+
+            tr:hover:not(:last-child) {
+                background-color: #ddd;
+            }
         }
     }
 }

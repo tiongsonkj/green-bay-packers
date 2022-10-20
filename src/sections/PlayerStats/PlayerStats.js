@@ -10,6 +10,11 @@ const PlayerStats = () => {
     const [ year, setYear ] = useState(null);
     const [ yearData, setYearData ] = useState([]);
 
+    // handling select boxes
+    const [ pre, setPre ] = useState(false);
+    const [ post, setPost ] = useState(false);
+    const [ reg, setReg ] = useState(true);
+
     useEffect(() => {
         console.log(calculateCareerStats());
 
@@ -20,38 +25,67 @@ const PlayerStats = () => {
 
     useEffect(() => {
         console.log({ year })
-        setYearData(getYearGameLogData(year));
-    }, [year])
-    
-    /* 
-        - yearly stat summary
-        - career total stats
-        - game by game log of the most recent season
-        --- with the ability to change seasons to see prior season game log
-    */
 
-    // gonna need to sort the data by year...
-
-    // need to identify which columns to use
+        setYearData(getYearGameLogData(year, {Pre: pre, Post: post, Reg: reg}));
+    }, [year, pre, post, reg])
 
     const handleSelectChange = (e) => {
         setYear(parseInt(e.target.value));
     }
 
-    console.log({ career, twentyOne, yearData })
-    const { comp, att, yards, td, int, sacks, hits } = career;
+    const handleCheckboxChange = (e) => {
+        console.log(e.target);
+        const box = e.target.name;
+
+        switch (box) {
+            case "post":
+                setPost(!post);
+                break;
+            case "pre":
+                setPre(!pre);
+                break;
+            default:
+                setReg(!reg);
+        }
+    }
+
     return (
         <section className="player-stats">
             <Career careerStats={career}/>
 
-
-            {/* year  */}
-            <div className="player-stats__yearly-stats">
+            <div className="yearly-stats">
                 <div className="head">
                     <span>{year}</span>
+
+                    <div className="select-container">
+                        <label>
+                            <input 
+                                type="checkbox" 
+                                name="reg" 
+                                checked={reg} 
+                                onChange={handleCheckboxChange}
+                            /><span>Regular</span>
+                        </label>
+                        <label>
+                            <input 
+                                type="checkbox" 
+                                name="post" 
+                                checked={post} 
+                                onChange={handleCheckboxChange}
+                            /><span>Post</span>
+                        </label>
+                        <label>
+                            <input 
+                                type="checkbox" 
+                                name="pre" 
+                                checked={pre} 
+                                onChange={handleCheckboxChange}
+                            /><span>Pre</span>
+                        </label>
+                    </div>
                     
                     <div>
-                        {/* TODO: sort this out by most recent. it already is but still */}
+                        {/* TODO: sort game logs by date by most recent. */}
                         <select id="year-select" onChange={handleSelectChange} value={year}>
                             {years.map(year => (
                                 <option>{year}</option>
@@ -63,6 +97,7 @@ const PlayerStats = () => {
                 <table className="game-logs">
                     <thead>
                         <th>GAME DATE</th>
+                        <th>OPP</th>
                         <th>COMP</th>
                         <th>ATT</th>
                         <th>YARDS</th>
@@ -70,13 +105,31 @@ const PlayerStats = () => {
                         <th>INT</th>
                         <th>SACKS</th>
                         <th>HITS</th>
+                        <th>QB RTG</th>
+                        <th>SEASON</th>
                     </thead>
                     {yearData.map(game => {
-                        const { QBCompletions, QBAttempts, QBYards, QBTouchdowns, QBInterceptions, QBSacks, QBHits, GameDate } = game;
+                        const { 
+                            QBCompletions,
+                            QBAttempts,
+                            QBYards,
+                            QBTouchdowns,
+                            QBInterceptions,
+                            QBSacks,
+                            QBHits,
+                            GameDate,
+                            TeamAbbr,
+                            HomeAbbr,
+                            AwayAbbr,
+                            SeasonType,
+                            QBRating
+                        } = game;
                         const date = GameDate.split(" ")[0];
+                        const opponent = TeamAbbr === HomeAbbr ? AwayAbbr : HomeAbbr;
                         return (
                             <tr>
                                 <td>{date}</td>
+                                <td>{opponent}</td>
                                 <td>{QBCompletions}</td>
                                 <td>{QBAttempts}</td>
                                 <td>{QBYards}</td>
@@ -84,6 +137,8 @@ const PlayerStats = () => {
                                 <td>{QBInterceptions}</td>
                                 <td>{QBSacks}</td>
                                 <td>{QBHits}</td>
+                                <td>{QBRating}</td>
+                                <td>{SeasonType}</td>
                             </tr>
                         )
                     })}
@@ -96,53 +151,3 @@ const PlayerStats = () => {
 };
 
 export default PlayerStats;
-
-/* career stat colums to use... 
-    - QBAttempts
-    - QBCompletions
-    - Compl Percentage? (seperate calculation)
-    - QBYards
-    - QBTouchdowns
-    - QBInterceptions
-    - avg yards per pass attempt? (seperate calculation)
-    - QBLong
-    - QBSacks
-    - QBHits
-    - QB Rating? (how would i calculate this for his career)
-
-    ------
-    nice to have:
-    - games played / started
-    - record
-*/
-
-
-/* yearly stat colums to use... 
-    - QBAttempts
-    - QBCompletions
-    - Compl Percentage? (seperate calculation)
-    - QBYards
-    - QBTouchdowns
-    - QBInterceptions
-    - avg yards per pass attempt? (seperate calculation)
-    - QBLong
-    - QBSacks
-    - QBHits
-    - QB Rating? (how would i calculate this for his career or for the year)
-*/
-
-/* Game by game log
-    - QBAttempts
-    - QBCompletions
-    - Compl Percentage? (seperate calculation)
-    - QBYards
-    - QBTouchdowns
-    - QBInterceptions
-    - avg yards per pass attempt? (seperate calculation)
-    - QBLong
-    - QBSacks
-    - QBHits
-    - QB Rating
-    - game date
-    - opponent
-*/
