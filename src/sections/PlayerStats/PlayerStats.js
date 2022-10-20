@@ -1,20 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import YearSum from '../../components/YearSum';
-import { calculateCareerStats } from '../../utils';
+import { calculateCareerStats, getYearGameLogData } from '../../utils';
 
 import './playerStats.scss';
 
 const PlayerStats = () => {
-    // const [ careerStats, setCareerStats ] = useState(calculateCareerStats().career);
-    // const [ currentYear, setCurrentYear ] = useState(calculateCareerStats().twentyOne);
-    const { twentyOne, career } = calculateCareerStats();
-    const [ yearSum, setYearSum ] = useState(null);
+    const { twentyOne, career, years } = calculateCareerStats();
+    const [ year, setYear ] = useState(null);
+    const [ yearData, setYearData ] = useState([]);
 
     useEffect(() => {
         console.log(calculateCareerStats());
 
-
+        // initialize first year
+        const sortedYears = years.sort((a, b) => b - a);
+        setYear(sortedYears[0]);
     }, []);
+
+    useEffect(() => {
+        console.log({ year })
+        setYearData(getYearGameLogData(year));
+    }, [year])
     
     /* 
         - yearly stat summary
@@ -25,14 +31,13 @@ const PlayerStats = () => {
 
     // gonna need to sort the data by year...
 
-    // need to identify most recent season...
     // need to identify which columns to use
 
-    // career stats...
-    // go through the entire json file and...
-    // create the object...
+    const handleSelectChange = (e) => {
+        setYear(parseInt(e.target.value));
+    }
 
-    console.log({ career, twentyOne })
+    console.log({ career, twentyOne, yearData })
     const { comp, att, yards, td, int, sacks, hits } = career;
     return (
         <section className="player-stats">
@@ -63,14 +68,14 @@ const PlayerStats = () => {
             {/* year  */}
             <div className="player-stats__yearly-stats">
                 <div className="head">
-                    <span>2021</span>
+                    <span>{year}</span>
                     
                     <div>
-                        {/* TODO: make this a map of the unique years */}
-                        <select id="year-select">
-                            <option>2020</option>
-                            <option>2019</option>
-                            <option>2018</option>
+                        {/* TODO: sort this out by most recent. it already is but still */}
+                        <select id="year-select" onChange={handleSelectChange} value={year}>
+                            {years.map(year => (
+                                <option>{year}</option>
+                            ))}
                         </select>
                     </div>
                 </div>
@@ -86,28 +91,24 @@ const PlayerStats = () => {
                         <th>SACKS</th>
                         <th>HITS</th>
                     </thead>
-                    <tr>
-                        <td></td>
-                    </tr>
-                    {twentyOne.map(game => {
-                        const { comp, att, yards, td, int, sacks, hits, date } = game;
-                        console.log({ game, date })
-
+                    {yearData.map(game => {
+                        const { QBCompletions, QBAttempts, QBYards, QBTouchdowns, QBInterceptions, QBSacks, QBHits, GameDate } = game;
+                        const date = GameDate.split(" ")[0];
                         return (
                             <tr>
                                 <td>{date}</td>
-                                <td>{comp}</td>
-                                <td>{att}</td>
-                                <td>{yards}</td>
-                                <td>{td}</td>
-                                <td>{int}</td>
-                                <td>{sacks}</td>
-                                <td>{hits}</td>
+                                <td>{QBCompletions}</td>
+                                <td>{QBAttempts}</td>
+                                <td>{QBYards}</td>
+                                <td>{QBTouchdowns}</td>
+                                <td>{QBInterceptions}</td>
+                                <td>{QBSacks}</td>
+                                <td>{QBHits}</td>
                             </tr>
                         )
                     })}
 
-                    <YearSum gameLogs={twentyOne} />
+                    <YearSum gameLogs={yearData} />
                 </table>
             </div>
         </section>

@@ -12,13 +12,13 @@ const YearSum = (props) => {
         hits: 0,
     };
     for (let log of props.gameLogs) {
-        data.comp += Number(log.comp);
-        data.att += Number(log.att);
-        data.yards += Number(log.yards);
-        data.td += Number(log.td);
-        data.int += Number(log.int);
-        data.sacks += Number(log.sacks);
-        data.hits += Number(log.hits);
+        data.comp += Number(log["QBCompletions"]);
+        data.att += Number(log["QBAttempts"]);
+        data.yards += Number(log["QBYards"]);
+        data.td += Number(log["QBTouchdowns"]);
+        data.int += Number(log["QBInterceptions"]);
+        data.sacks += Number(log["QBSacks"]);
+        data.hits += Number(log["QBHits"]);
     }
     
     return (

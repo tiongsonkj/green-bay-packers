@@ -13,6 +13,7 @@ const calculateCareerStats = () => {
     }
 
     const twentyOne = [];
+    const years = [];
 
 
     for (let game of yearStatsData) {
@@ -41,6 +42,12 @@ const calculateCareerStats = () => {
             }
             twentyOne.push(newObj);
         } 
+
+
+        // new array of unique years
+        if (!years.includes(game["Season"])) {
+            years.push(game["Season"]);
+        }
     }
 
 
@@ -51,8 +58,17 @@ const calculateCareerStats = () => {
 
     return {
         career,
-        twentyOne
+        twentyOne,
+        years
     };
 };
 
-export { calculateCareerStats }
+const getYearGameLogData = (year) => {
+    return yearStatsData.filter(game => game["Season"] === year);
+}
+
+
+export { 
+    calculateCareerStats,
+    getYearGameLogData
+};
