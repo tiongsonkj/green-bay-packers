@@ -1,5 +1,3 @@
-import './App.css';
-
 import Bio from './sections/Bio';
 import PlayerStats from './sections/PlayerStats';
 import Jumbotron from './components/Jumbotron';
